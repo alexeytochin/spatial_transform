@@ -34,6 +34,13 @@ class SpatialTransformBlock(TensorToTensorLayer, ABC):
         """
         raise NotImplementedError()
 
+    def get_config(self):
+        config = super().get_config().copy()
+        config.update({
+            'shape_out': self._shape_out,
+        })
+        return config
+
 
 class CustomSpatialTransformBlock(SpatialTransformBlock):
     """

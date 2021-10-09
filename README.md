@@ -7,7 +7,7 @@ and their extensions with Tensorflow.
 ## What's implemented
 1. Datasets: only [Affine MNIST](https://www.kaggle.com/kmader/affinemnist).
 2. Spatial transforms: Affine and Quadratic (see below).
-3. INterpolations: Biliniar interpolation. The implementation is based on
+3. Interpolations: Biliniar interpolation. The implementation is based on
  [this blog post](https://towardsdatascience.com/implementing-spatial-transformer-network-stn-in-tensorflow-bf0dc5055cd5)
 4. STN-CO, CTN-CX blocks and thier chains with possible shared weights, 
 see [paper](https://arxiv.org/pdf/2004.11678.pdf).
@@ -32,20 +32,21 @@ Specify the download directory with
 
 
 ## Experiments
-Jupyter notepads with model training experiments are located in 
-[`experiments`](experiments)
-directory. 
 In order to make advantages of spatial transform more visible on 
 Affine MNIST dtaset **we restrict ourself with modle size < 10000 weights**. 
 
-Some experiments are summarized in the table below:
+Executable scripts with experiments are located in
+[`experiments`](experiments)
+directory. They can be in a form of an ordinary python script like
+[`Basic_STN_coord_network_0082.py`](experiments/Basic_STN_coord_network_0082.py)
+or Jupyter notebook that are summarized in the table below:
 
 | Name                     |      Description      |  Validation error rate   | Model size | Reference to notebook |
 |:-------                  |:---                   |:---                      |:---        |:---                   |
 | Convolutional baseline   | Simple conv network   | 0.0161                   | 98694      | [notebook](experiments/Baseline_convolutional_backbone.ipynb)     |
-| Basic STN                | Basic STN             | 0.0094                   | 94488      | [notebook](experiments/STN_C0_backbone.ipynb)             |
-| Basic STN with CoordConv         | Add coord features to localization network | 0.0082                   | 97656      | [notebook](experiments/Basic_STN_coord_network_0082.ipynb)  |
-| STN-CX x 3               | Repeted STN-CX blocks with shared weights        | 0.0139                   | 97520      | [notebook](experiments/STN_CX_backbone.ipynb)               |
+| Basic STN                | Basic STN             | 0.0074                   | 94488      | [notebook](experiments/STN_C0_backbone.ipynb)             |
+| Basic STN with CoordConv         | Add coord features to localization network | 0.0074                   | 97656      | [notebook](experiments/Basic_STN_coord_network_0074.ipynb)  |
+| STN-CX x 3               | Repeted STN-CX blocks with shared weights        | 0.0148                   | 97520      | [notebook](experiments/STN_CX_backbone.ipynb)               |
 | Quadratic transforms     | We try a chine with quadratic transforms         | 0.0274 | 96520 | [notebook](experiments/STN_quadratic_chain_backbone) |
 
 
@@ -55,10 +56,10 @@ Some experiments are summarized in the table below:
 the spatial transform maps the digit such that it more or less fits the boundary
 of target image. Irrelevant information is mostly left behind. 
 See 
-2. [CoordConv layer](https://arxiv.org/pdf/1807.03247.pdf) helps to improve the accuracy a bit. 
-[notebook](experiments/Basic_STN_coord_network_0082.ipynb) for illustrations.
-2. STN_CX_backbone with repeated shared weights overflights see 
-[notebook](experiments/STN_CX_backbone.ipynb).
+2. [CoordConv layer](https://arxiv.org/pdf/1807.03247.pdf) did not outperfom standa convolution in our scope. 
+[notebook](experiments/Basic_STN_coord_network_0074.ipynb) for illustrations.
+2. We implement STN_CX_backbone with repeated shared weights (see 
+[notebook](experiments/STN_CX_backbone.ipynb)).
 3. We also implement Quadratic transform 
 
 <img src="https://latex.codecogs.com/svg.latex? x_i \rightarrow \tilde x_i = a_i + \sum_j b_{ij} x_j + \sum_{jk} c_{ijk} x_j x_k, \quad i,j,k=1,2, "/>
